@@ -66,7 +66,10 @@ extension Comparison {
         /// `init(_:_:)` instead.
         @inlinable
         @_disfavoredOverload
-        public init<T: Swift.Comparable & ~Copyable>(comparing lhs: borrowing T, to rhs: borrowing T) {
+        public init<T: Swift.Comparable & ~Copyable>(
+            comparing lhs: borrowing T,
+            to rhs: borrowing T
+        ) {
             if lhs < rhs {
                 self = .less
             } else if lhs > rhs {

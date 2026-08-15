@@ -2,7 +2,8 @@
     // Comparison.Protocol+Swift.PartialRange.swift
     // Conditional conformances for partial range types.
 
-    extension PartialRangeFrom: Comparison.`Protocol` where Bound: Comparison.`Protocol` & Copyable {
+    extension PartialRangeFrom: Comparison.`Protocol`
+    where Bound: Comparison.`Protocol` & Copyable {
         /// Returns whether the left-hand side is less than the right-hand side.
         ///
         /// - Parameters:
@@ -16,7 +17,8 @@
         }
     }
 
-    extension PartialRangeThrough: Comparison.`Protocol` where Bound: Comparison.`Protocol` & Copyable {
+    extension PartialRangeThrough: Comparison.`Protocol`
+    where Bound: Comparison.`Protocol` & Copyable {
         /// Returns whether the left-hand side is less than the right-hand side.
         ///
         /// - Parameters:
@@ -30,7 +32,8 @@
         }
     }
 
-    extension PartialRangeUpTo: Comparison.`Protocol` where Bound: Comparison.`Protocol` & Copyable {
+    extension PartialRangeUpTo: Comparison.`Protocol`
+    where Bound: Comparison.`Protocol` & Copyable {
         /// Returns whether the left-hand side is less than the right-hand side.
         ///
         /// - Parameters:
