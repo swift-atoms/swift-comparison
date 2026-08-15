@@ -2,7 +2,8 @@
     // Comparison.Protocol+Swift.Optional.swift
     // Conditional conformance for Optional when Wrapped is Copyable.
 
-    extension Optional: Comparison.`Protocol` where Wrapped: Comparison.`Protocol`, Wrapped: Copyable {
+    extension Optional: Comparison.`Protocol`
+    where Wrapped: Comparison.`Protocol`, Wrapped: Copyable {
         /// Returns whether the left-hand side is less than the right-hand side.
         ///
         /// Ordering follows Swift stdlib semantics:

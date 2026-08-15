@@ -2,7 +2,8 @@
     // Comparison.Protocol+Swift.KeyValuePairs.swift
     // Conditional conformance for KeyValuePairs.
 
-    extension KeyValuePairs: Comparison.`Protocol` where Key: Comparison.`Protocol` & Copyable, Value: Comparison.`Protocol` & Copyable {
+    extension KeyValuePairs: Comparison.`Protocol`
+    where Key: Comparison.`Protocol` & Copyable, Value: Comparison.`Protocol` & Copyable {
         /// Returns whether the left-hand side is lexicographically less than the right-hand side.
         ///
         /// Compares key-value pairs in order. Keys are compared first, then values

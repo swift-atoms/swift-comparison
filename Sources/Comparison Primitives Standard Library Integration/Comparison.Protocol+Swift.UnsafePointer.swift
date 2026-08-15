@@ -17,7 +17,9 @@
         public static func < (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
             let lhsCopy = unsafe copy lhs
             let rhsCopy = unsafe copy rhs
-            return unsafe (Int(bitPattern: UnsafeRawPointer(lhsCopy)) < Int(bitPattern: UnsafeRawPointer(rhsCopy)))
+            return
+                unsafe (Int(bitPattern: UnsafeRawPointer(lhsCopy))
+                < Int(bitPattern: UnsafeRawPointer(rhsCopy)))
         }
     }
 

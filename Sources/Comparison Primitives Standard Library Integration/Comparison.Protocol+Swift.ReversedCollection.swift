@@ -2,7 +2,8 @@
     // Comparison.Protocol+Swift.ReversedCollection.swift
     // Conditional conformance for ReversedCollection.
 
-    extension ReversedCollection: Comparison.`Protocol` where Base.Element: Comparison.`Protocol` & Copyable {
+    extension ReversedCollection: Comparison.`Protocol`
+    where Base.Element: Comparison.`Protocol` & Copyable {
         /// Returns whether the left-hand side is lexicographically less than the right-hand side.
         ///
         /// Compares elements in reversed order.
