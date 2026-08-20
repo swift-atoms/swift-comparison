@@ -365,7 +365,7 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
     func `.compare.to() returns correct result`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
-        var c = Token(id: 5)
+        let c = Token(id: 5)
 
         #expect(a.compare.to(b) == .less)
         #expect(b.compare.to(a) == .greater)
@@ -393,8 +393,8 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
     @Test
     func `.compare.isEqual(to:) returns correct result`() {
         var a = Token(id: 5)
-        var b = Token(id: 10)
-        var c = Token(id: 5)
+        let b = Token(id: 10)
+        let c = Token(id: 5)
 
         #expect(a.compare.isEqual(to: c) == true)
         #expect(a.compare.isEqual(to: b) == false)
@@ -404,7 +404,7 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
     func `.compare.isLessOrEqual(to:) returns correct result`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
-        var c = Token(id: 5)
+        let c = Token(id: 5)
 
         #expect(a.compare.isLessOrEqual(to: b) == true)
         #expect(a.compare.isLessOrEqual(to: c) == true)
@@ -415,7 +415,7 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
     func `.compare.isGreaterOrEqual(to:) returns correct result`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
-        var c = Token(id: 5)
+        let c = Token(id: 5)
 
         #expect(b.compare.isGreaterOrEqual(to: a) == true)
         #expect(a.compare.isGreaterOrEqual(to: c) == true)
@@ -426,7 +426,7 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
     func `Automatic .compare property via protocol extension`() {
         // Token2 doesn't manually define .compare - it gets it from the protocol extension
         var x = Token2(value: 1)
-        var y = Token2(value: 2)
+        let y = Token2(value: 2)
 
         #expect(x.compare.to(y) == .less)
         #expect(x.compare.isLess(than: y) == true)

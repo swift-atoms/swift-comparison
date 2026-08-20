@@ -19,154 +19,77 @@ public import Property_Primitives
 // Comparison.Protocol and Swift.Comparable (like Int) use the
 // Comparison.Protocol extension which supports `borrowing` parameters.
 //
-// SE-0499: Swift.Comparable no longer implies Copyable in Swift 6.4.
-// Without ~Copyable, the extension gains implicit `where Base: Copyable` on 6.4,
-// making it unreachable for ~Copyable types.
-#if compiler(>=6.4)
-    extension Property.Inout where Base: Swift.Comparable & ~Copyable, Tag == Comparison.Compare {
-
-        /// Compares this value to another.
-        ///
-        /// Returns a three-way comparison result indicating the relative order.
-        ///
-        /// ```swift
-        /// var apple = "apple"
-        /// let banana = "banana"
-        ///
-        /// apple.compare.to(banana)  // .less
-        /// ```
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `.less`, `.equal`, or `.greater`.
-        @_disfavoredOverload
-        @inlinable
-        public func to(_ other: borrowing Base) -> Comparison {
-            Comparison(comparing: base.value, to: other)
-        }
-
-        /// Checks if this value is less than another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self < other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isLess(than other: borrowing Base) -> Bool {
-            base.value < other
-        }
-
-        /// Checks if this value is greater than another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self > other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isGreater(than other: borrowing Base) -> Bool {
-            base.value > other
-        }
-
-        /// Checks if this value equals another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self == other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isEqual(to other: borrowing Base) -> Bool {
-            base.value == other
-        }
-
-        /// Checks if this value is less than or equal to another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self <= other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isLessOrEqual(to other: borrowing Base) -> Bool {
-            base.value <= other
-        }
-
-        /// Checks if this value is greater than or equal to another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self >= other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isGreaterOrEqual(to other: borrowing Base) -> Bool {
-            base.value >= other
-        }
+// Swift.Comparable no longer implies Copyable, so this also supports ~Copyable bases.
+extension Property.Inout where Base: Swift.Comparable & ~Copyable, Tag == Comparison.Compare {
+    /// Compares this value to another.
+    ///
+    /// Returns a three-way comparison result indicating the relative order.
+    ///
+    /// ```swift
+    /// var apple = "apple"
+    /// let banana = "banana"
+    ///
+    /// apple.compare.to(banana)  // .less
+    /// ```
+    ///
+    /// - Parameter other: The value to compare against.
+    /// - Returns: `.less`, `.equal`, or `.greater`.
+    @_disfavoredOverload
+    @inlinable
+    public func to(_ other: borrowing Base) -> Comparison {
+        Comparison(comparing: base.value, to: other)
     }
-#else
-    extension Property.Inout where Base: Swift.Comparable, Tag == Comparison.Compare {
 
-        /// Compares this value to another.
-        ///
-        /// Returns a three-way comparison result indicating the relative order.
-        ///
-        /// ```swift
-        /// var apple = "apple"
-        /// let banana = "banana"
-        ///
-        /// apple.compare.to(banana)  // .less
-        /// ```
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `.less`, `.equal`, or `.greater`.
-        @_disfavoredOverload
-        @inlinable
-        public func to(_ other: Base) -> Comparison {
-            Comparison(comparing: base.value, to: other)
-        }
-
-        /// Checks if this value is less than another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self < other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isLess(than other: Base) -> Bool {
-            base.value < other
-        }
-
-        /// Checks if this value is greater than another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self > other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isGreater(than other: Base) -> Bool {
-            base.value > other
-        }
-
-        /// Checks if this value equals another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self == other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isEqual(to other: Base) -> Bool {
-            base.value == other
-        }
-
-        /// Checks if this value is less than or equal to another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self <= other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isLessOrEqual(to other: Base) -> Bool {
-            base.value <= other
-        }
-
-        /// Checks if this value is greater than or equal to another.
-        ///
-        /// - Parameter other: The value to compare against.
-        /// - Returns: `true` if `self >= other`.
-        @_disfavoredOverload
-        @inlinable
-        public func isGreaterOrEqual(to other: Base) -> Bool {
-            base.value >= other
-        }
+    /// Checks if this value is less than another.
+    ///
+    /// - Parameter other: The value to compare against.
+    /// - Returns: `true` if `self < other`.
+    @_disfavoredOverload
+    @inlinable
+    public func isLess(than other: borrowing Base) -> Bool {
+        base.value < other
     }
-#endif
+
+    /// Checks if this value is greater than another.
+    ///
+    /// - Parameter other: The value to compare against.
+    /// - Returns: `true` if `self > other`.
+    @_disfavoredOverload
+    @inlinable
+    public func isGreater(than other: borrowing Base) -> Bool {
+        base.value > other
+    }
+
+    /// Checks if this value equals another.
+    ///
+    /// - Parameter other: The value to compare against.
+    /// - Returns: `true` if `self == other`.
+    @_disfavoredOverload
+    @inlinable
+    public func isEqual(to other: borrowing Base) -> Bool {
+        base.value == other
+    }
+
+    /// Checks if this value is less than or equal to another.
+    ///
+    /// - Parameter other: The value to compare against.
+    /// - Returns: `true` if `self <= other`.
+    @_disfavoredOverload
+    @inlinable
+    public func isLessOrEqual(to other: borrowing Base) -> Bool {
+        base.value <= other
+    }
+
+    /// Checks if this value is greater than or equal to another.
+    ///
+    /// - Parameter other: The value to compare against.
+    /// - Returns: `true` if `self >= other`.
+    @_disfavoredOverload
+    @inlinable
+    public func isGreaterOrEqual(to other: borrowing Base) -> Bool {
+        base.value >= other
+    }
+}
 
 // MARK: - .compare Property for Swift.Comparable
 
