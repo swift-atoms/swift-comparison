@@ -53,17 +53,10 @@ The lazy form `then(with:)` defers later comparisons until the prior one returns
 Under Swift <6.4, `Comparison.Protocol` is the package's own fork of `Swift.Comparable` with `borrowing` parameters. Under Swift 6.4+, the protocol is a typealias to `Swift.Comparable`:
 
 ```swift
-#if swift(>=6.4)
-    extension Comparison {
-        public typealias `Protocol` = Swift.Comparable
-    }
-#else
-    extension Comparison {
-        public protocol `Protocol`: Equation.`Protocol`, ~Copyable {
-            static func < (lhs: borrowing Self, rhs: borrowing Self) -> Bool
-        }
-    }
-#endif
+extension Comparison {
+    public typealias `Protocol` = Swift.Comparable
+}
+
 ```
 
 The `Comparison` enum (the three-way result type) and the `.compare` / `.clamp` fluent accessors are independent of the SE-0499 question — they ship in both compiler modes.
