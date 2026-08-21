@@ -12,13 +12,12 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        // MARK: - Namespace
+
         .library(
             name: "Comparison Primitive",
             targets: ["Comparison Primitive"]
         ),
 
-        // MARK: - Sub-namespace targets
         .library(
             name: "Comparison Protocol Primitives",
             targets: ["Comparison Protocol Primitives"]
@@ -32,19 +31,16 @@ let package = Package(
             targets: ["Comparison Property Primitives"]
         ),
 
-        // MARK: - StdLib Integration
         .library(
             name: "Comparison Primitives Standard Library Integration",
             targets: ["Comparison Primitives Standard Library Integration"]
         ),
 
-        // MARK: - Umbrella
         .library(
             name: "Comparison Primitives",
             targets: ["Comparison Primitives"]
         ),
 
-        // MARK: - Test Support
         .library(
             name: "Comparison Primitives Test Support",
             targets: ["Comparison Primitives Test Support"]
@@ -65,13 +61,12 @@ let package = Package(
         ),
     ],
     targets: [
-        // MARK: - Namespace
+
         .target(
             name: "Comparison Primitive",
             dependencies: []
         ),
 
-        // MARK: - Sub-namespace targets (per [MOD-031])
         .target(
             name: "Comparison Protocol Primitives",
             dependencies: [
@@ -94,7 +89,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - StdLib Integration
         .target(
             name: "Comparison Primitives Standard Library Integration",
             dependencies: [
@@ -103,7 +97,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Umbrella
         .target(
             name: "Comparison Primitives",
             dependencies: [
@@ -116,7 +109,6 @@ let package = Package(
             ]
         ),
 
-        // MARK: - Test Support
         .target(
             name: "Comparison Primitives Test Support",
             dependencies: [

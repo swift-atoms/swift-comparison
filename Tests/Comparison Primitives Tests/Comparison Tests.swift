@@ -1,11 +1,6 @@
-// Comparison Tests.swift
-// Tests for Comparison
-
 import Testing
 
 @testable import Comparison_Primitives
-
-// MARK: - Suite Structure
 
 @Suite
 struct `Comparison Tests` {
@@ -14,8 +9,6 @@ struct `Comparison Tests` {
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
-
-// MARK: - Unit sub-suites
 
 extension `Comparison Tests`.Unit {
     @Suite struct Cases {}
@@ -31,9 +24,6 @@ extension `Comparison Tests`.Unit {
     @Suite struct `Lexicographic Comparison` {}
 }
 
-// MARK: - Fixtures
-
-/// `~Copyable` Comparison.Protocol-conformer used across the protocol/fluent tests.
 private struct Token: ~Copyable, Comparison.`Protocol` {
     let id: Int
 }
@@ -48,8 +38,6 @@ extension Token {
     }
 }
 
-/// Second `~Copyable` conformer: witnesses that `.compare` arrives from the
-/// protocol extension without a manual declaration.
 private struct Token2: ~Copyable, Comparison.`Protocol` {
     let value: Int
 }
@@ -64,7 +52,6 @@ extension Token2 {
     }
 }
 
-/// Copyable Comparison.Protocol-conformer for the Clamp tests (Clamp requires Copyable).
 private struct Score: Comparison.`Protocol` {
     var value: Int
 }
@@ -79,7 +66,6 @@ extension Score {
     }
 }
 
-/// Actor fixture exercising Sendable passing of Comparison.
 private actor Holder {
     var value: Comparison = .equal
 }
@@ -89,7 +75,6 @@ extension Holder {
     func get() -> Comparison { value }
 }
 
-/// Multi-field record for the lexicographic-comparison example.
 private struct Person: Equatable {
     let name: String
     let age: Int
@@ -102,8 +87,6 @@ private func compare(_ lhs: Person, _ rhs: Person) -> Comparison {
         .then(Comparison(comparing: lhs.id, to: rhs.id))
 }
 
-// MARK: - Cases
-
 extension `Comparison Tests`.Unit.Cases {
     @Test
     func `All cases exist`() {
@@ -114,8 +97,6 @@ extension `Comparison Tests`.Unit.Cases {
         #expect(cases.contains(.greater))
     }
 }
-
-// MARK: - Reversal (Involution Property)
 
 extension `Comparison Tests`.Unit.Reversal {
     @Test
@@ -146,8 +127,6 @@ extension `Comparison Tests`.Unit.Reversal {
         }
     }
 }
-
-// MARK: - Chaining (Monoid Properties)
 
 extension `Comparison Tests`.Unit.Chaining {
     @Test
@@ -195,21 +174,17 @@ extension `Comparison Tests`.Unit.Chaining {
             return .greater
         }
 
-        // Should NOT evaluate when primary is decisive
         _ = Comparison.less.then(with: lazyValue)
         #expect(evaluationCount == 0)
 
         _ = Comparison.greater.then(with: lazyValue)
         #expect(evaluationCount == 0)
 
-        // Should evaluate when primary is equal
         let result = Comparison.equal.then(with: lazyValue)
         #expect(evaluationCount == 1)
         #expect(result == .greater)
     }
 }
-
-// MARK: - Boolean Properties
 
 extension `Comparison Tests`.Unit.`Boolean Properties` {
     @Test
@@ -248,8 +223,6 @@ extension `Comparison Tests`.Unit.`Boolean Properties` {
     }
 }
 
-// MARK: - Construction from Swift.Comparable
-
 extension `Comparison Tests`.Unit.`Swift.Comparable Construction` {
     @Test
     func `Int comparison`() {
@@ -272,8 +245,6 @@ extension `Comparison Tests`.Unit.`Swift.Comparable Construction` {
         #expect(Comparison(comparing: 3.5, to: 2.5) == .greater)
     }
 }
-
-// MARK: - Protocol Conformances
 
 extension `Comparison Tests`.Unit.`Protocol Conformances` {
     @Test
@@ -302,8 +273,6 @@ extension `Comparison Tests`.Unit.`Protocol Conformances` {
         #expect(result == .less)
     }
 }
-
-// MARK: - Construction from Comparison.Protocol (~Copyable)
 
 extension `Comparison Tests`.Unit.`Comparison.Protocol Construction` {
     @Test
@@ -357,8 +326,6 @@ extension `Comparison Tests`.Unit.`Comparison.Protocol Construction` {
         #expect(result == true)
     }
 }
-
-// MARK: - Fluent Compare API
 
 extension `Comparison Tests`.Unit.`Fluent Compare API` {
     @Test
@@ -424,7 +391,7 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
 
     @Test
     func `Automatic .compare property via protocol extension`() {
-        // Token2 doesn't manually define .compare - it gets it from the protocol extension
+
         var x = Token2(value: 1)
         let y = Token2(value: 2)
 
@@ -432,8 +399,6 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
         #expect(x.compare.isLess(than: y) == true)
     }
 }
-
-// MARK: - Fluent Clamp API
 
 extension `Comparison Tests`.Unit.`Fluent Clamp API` {
     @Test
@@ -486,8 +451,6 @@ extension `Comparison Tests`.Unit.`Fluent Clamp API` {
     }
 }
 
-// MARK: - Swift.Comparable Fluent API
-
 extension `Comparison Tests`.Unit.`Swift.Comparable Fluent API` {
     @Test
     func `String has .compare property`() {
@@ -533,8 +496,7 @@ extension `Comparison Tests`.Unit.`Swift.Comparable Fluent API` {
 
     @Test
     func `Int uses Comparison.Protocol path (both paths work)`() {
-        // Int conforms to both Comparison.Protocol and Swift.Comparable
-        // Either path should work
+
         var a = 5
         let b = 10
 
@@ -560,8 +522,6 @@ extension `Comparison Tests`.Unit.`Swift.Comparable Fluent API` {
     }
 }
 
-// MARK: - Lexicographic Comparison Example
-
 extension `Comparison Tests`.Unit.`Lexicographic Comparison` {
     @Test
     func `Multi-field comparison`() {
@@ -570,16 +530,12 @@ extension `Comparison Tests`.Unit.`Lexicographic Comparison` {
         let alice3 = Person(name: "Alice", age: 25, id: 1)
         let bob = Person(name: "Bob", age: 30, id: 1)
 
-        // Same name, same age, different id
         #expect(compare(alice1, alice2) == .less)
 
-        // Same name, different age
         #expect(compare(alice1, alice3) == .greater)
 
-        // Different name
         #expect(compare(alice1, bob) == .less)
 
-        // Same person
         #expect(compare(alice1, alice1) == .equal)
     }
 }
