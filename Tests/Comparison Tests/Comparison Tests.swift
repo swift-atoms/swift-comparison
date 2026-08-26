@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Comparison_Primitives
+@testable import Comparison
 
 @Suite
 struct `Comparison Tests` {

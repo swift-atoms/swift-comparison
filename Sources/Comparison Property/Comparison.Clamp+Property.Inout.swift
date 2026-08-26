@@ -1,4 +1,4 @@
-public import Property_Primitives
+public import Property
 
 extension Property.Inout
 where Base: Comparison.`Protocol` & Copyable, Tag == Comparison.Clamp {

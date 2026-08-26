@@ -1,11 +1,11 @@
-# Comparison Primitives
+# Comparison
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-primitives/swift-comparison-primitives/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-primitives/swift-comparison-primitives/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-molecules/swift-comparison/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-molecules/swift-comparison/actions/workflows/ci.yml)
 
 `Comparison` — a three-way comparison value type with `.less` / `.equal` / `.greater` cases — and `Comparison.Protocol`, an ordering protocol that admits `~Copyable` types via `borrowing` parameters. Mirrors `Swift.Comparable` and, on Swift 6.4 and later, *is* `Swift.Comparable` via a namespace typealias once [SE-0499](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0499-support-non-copyable-simple-protocols.md) lands at your floor.
 
-Refines [`swift-equation-primitives`](https://github.com/swift-primitives/swift-equation-primitives) at the type level, matching Swift stdlib's `Comparable: Equatable` chain.
+Refines [`swift-equation`](https://github.com/swift-molecules/swift-equation) at the type level, matching Swift stdlib's `Comparable: Equatable` chain.
 
 ---
 
@@ -24,7 +24,7 @@ Refines [`swift-equation-primitives`](https://github.com/swift-primitives/swift-
 Compare two values via the three-way result type:
 
 ```swift
-import Comparison_Primitives
+import Comparison
 
 let result = Comparison(comparing: 5, to: 10)   // .less
 result.reversed                                 // .greater
@@ -89,7 +89,7 @@ Add the dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-comparison-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-molecules/swift-comparison.git", branch: "main")
 ]
 ```
 
@@ -99,12 +99,12 @@ Add the umbrella product to your target:
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Comparison Primitives", package: "swift-comparison-primitives")
+        .product(name: "Comparison", package: "swift-comparison")
     ]
 )
 ```
 
-For narrower surface, depend on `Comparison Primitives Core` alone (value type + protocol, no stdlib bridge for fluent accessors).
+For narrower surface, depend on `Comparison Core` alone (value type + protocol, no stdlib bridge for fluent accessors).
 
 Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 (or the corresponding Linux / Windows toolchain).
 
@@ -116,12 +116,12 @@ Four library products plus a Test Support target:
 
 | Product | Contents | When to import |
 |---------|----------|----------------|
-| `Comparison Primitives` | Umbrella — re-exports Core + Standard Library Integration | Most consumers |
-| `Comparison Primitives Core` | `Comparison` value type, `Comparison.Protocol`, `Comparison.Compare`, `Comparison.Clamp` (without stdlib `Comparable` bridge) | When stdlib `.compare` / `.clamp` are unwanted |
-| `Comparison Primitives Standard Library Integration` | Re-conformance of stdlib types under Swift <6.4; the `Swift.Comparable` bridge that powers `.compare` / `.clamp` on stdlib types | Pulled in transitively by the umbrella |
-| `Comparison Primitives Test Support` | Re-export of upstream Test Support modules | Test target only |
+| `Comparison` | Umbrella — re-exports Core + Standard Library Integration | Most consumers |
+| `Comparison Core` | `Comparison` value type, `Comparison.Protocol`, `Comparison.Compare`, `Comparison.Clamp` (without stdlib `Comparable` bridge) | When stdlib `.compare` / `.clamp` are unwanted |
+| `Comparison Standard Library Integration` | Re-conformance of stdlib types under Swift <6.4; the `Swift.Comparable` bridge that powers `.compare` / `.clamp` on stdlib types | Pulled in transitively by the umbrella |
+| `Comparison Test Support` | Re-export of upstream Test Support modules | Test target only |
 
-The fluent `.compare` and `.clamp` accessors are backed by the [`Property.Inout`](https://github.com/swift-primitives/swift-property-primitives) pattern — fluent namespaces without per-type proxy structs, extensible from downstream code.
+The fluent `.compare` and `.clamp` accessors are backed by the [`Property.Inout`](https://github.com/swift-molecules/swift-property) pattern — fluent namespaces without per-type proxy structs, extensible from downstream code.
 
 ---
 
@@ -145,10 +145,10 @@ Pre-1.0. The 0.1.0 surface — `Comparison` enum, `Comparison.Protocol`, `Compar
 
 ## Related Packages
 
-- [`swift-equation-primitives`](https://github.com/swift-primitives/swift-equation-primitives) — equality protocol that `Comparison.Protocol` refines.
-- [`swift-hash-primitives`](https://github.com/swift-primitives/swift-hash-primitives) — typed hash output + `Hash.Protocol` (also refines `Equation.Protocol`).
-- [`swift-property-primitives`](https://github.com/swift-primitives/swift-property-primitives) — `Property.Inout` powers the fluent `.compare` and `.clamp` accessors.
-- [`swift-tagged-primitives`](https://github.com/swift-primitives/swift-tagged-primitives) — `Tagged` conditionally conforms to `Comparison.Protocol`.
+- [`swift-equation`](https://github.com/swift-molecules/swift-equation) — equality protocol that `Comparison.Protocol` refines.
+- [`swift-hash`](https://github.com/swift-molecules/swift-hash) — typed hash output + `Hash.Protocol` (also refines `Equation.Protocol`).
+- [`swift-property`](https://github.com/swift-molecules/swift-property) — `Property.Inout` powers the fluent `.compare` and `.clamp` accessors.
+- [`swift-tagged`](https://github.com/swift-molecules/swift-tagged) — `Tagged` conditionally conforms to `Comparison.Protocol`.
 
 ---
 

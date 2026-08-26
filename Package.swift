@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-comparison-primitives",
+    name: "swift-comparison",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -19,44 +19,44 @@ let package = Package(
         ),
 
         .library(
-            name: "Comparison Protocol Primitives",
-            targets: ["Comparison Protocol Primitives"]
+            name: "Comparison Protocol",
+            targets: ["Comparison Protocol"]
         ),
         .library(
-            name: "Comparison Tagged Primitives",
-            targets: ["Comparison Tagged Primitives"]
+            name: "Comparison Tagged",
+            targets: ["Comparison Tagged"]
         ),
         .library(
-            name: "Comparison Property Primitives",
-            targets: ["Comparison Property Primitives"]
-        ),
-
-        .library(
-            name: "Comparison Primitives Standard Library Integration",
-            targets: ["Comparison Primitives Standard Library Integration"]
+            name: "Comparison Property",
+            targets: ["Comparison Property"]
         ),
 
         .library(
-            name: "Comparison Primitives",
-            targets: ["Comparison Primitives"]
+            name: "Comparison Standard Library Integration",
+            targets: ["Comparison Standard Library Integration"]
         ),
 
         .library(
-            name: "Comparison Primitives Test Support",
-            targets: ["Comparison Primitives Test Support"]
+            name: "Comparison",
+            targets: ["Comparison"]
+        ),
+
+        .library(
+            name: "Comparison Test Support",
+            targets: ["Comparison Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-equation-primitives.git",
+            url: "https://github.com/swift-molecules/swift-equation.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-property-primitives.git",
+            url: "https://github.com/swift-molecules/swift-property.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-tagged-primitives.git",
+            url: "https://github.com/swift-molecules/swift-tagged.git",
             branch: "main"
         ),
     ],
@@ -68,63 +68,63 @@ let package = Package(
         ),
 
         .target(
-            name: "Comparison Protocol Primitives",
+            name: "Comparison Protocol",
             dependencies: [
                 "Comparison Primitive",
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                .product(name: "Equation", package: "swift-equation"),
             ]
         ),
         .target(
-            name: "Comparison Tagged Primitives",
+            name: "Comparison Tagged",
             dependencies: [
-                "Comparison Protocol Primitives",
-                .product(name: "Tagged Primitives", package: "swift-tagged-primitives"),
+                "Comparison Protocol",
+                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
         .target(
-            name: "Comparison Property Primitives",
+            name: "Comparison Property",
             dependencies: [
-                "Comparison Protocol Primitives",
-                .product(name: "Property Primitives", package: "swift-property-primitives"),
+                "Comparison Protocol",
+                .product(name: "Property", package: "swift-property"),
             ]
         ),
 
         .target(
-            name: "Comparison Primitives Standard Library Integration",
+            name: "Comparison Standard Library Integration",
             dependencies: [
-                "Comparison Protocol Primitives",
-                "Comparison Property Primitives",
+                "Comparison Protocol",
+                "Comparison Property",
             ]
         ),
 
         .target(
-            name: "Comparison Primitives",
+            name: "Comparison",
             dependencies: [
                 "Comparison Primitive",
-                "Comparison Protocol Primitives",
-                "Comparison Tagged Primitives",
-                "Comparison Property Primitives",
-                "Comparison Primitives Standard Library Integration",
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                "Comparison Protocol",
+                "Comparison Tagged",
+                "Comparison Property",
+                "Comparison Standard Library Integration",
+                .product(name: "Equation", package: "swift-equation"),
             ]
         ),
 
         .target(
-            name: "Comparison Primitives Test Support",
+            name: "Comparison Test Support",
             dependencies: [
-                "Comparison Primitives",
+                "Comparison",
                 .product(
-                    name: "Tagged Primitives Test Support",
-                    package: "swift-tagged-primitives"
+                    name: "Tagged Test Support",
+                    package: "swift-tagged"
                 ),
             ],
             path: "Tests/Support"
         ),
         .testTarget(
-            name: "Comparison Primitives Tests",
+            name: "Comparison Tests",
             dependencies: [
-                "Comparison Primitives",
-                "Comparison Primitives Test Support",
+                "Comparison",
+                "Comparison Test Support",
             ]
         ),
     ],
