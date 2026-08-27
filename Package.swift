@@ -12,120 +12,39 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
-        .library(
-            name: "Comparison Primitive",
-            targets: ["Comparison Primitive"]
-        ),
-
-        .library(
-            name: "Comparison Protocol",
-            targets: ["Comparison Protocol"]
-        ),
-        .library(
-            name: "Comparison Tagged",
-            targets: ["Comparison Tagged"]
-        ),
-        .library(
-            name: "Comparison Property",
-            targets: ["Comparison Property"]
-        ),
-
-        .library(
-            name: "Comparison Standard Library Integration",
-            targets: ["Comparison Standard Library Integration"]
-        ),
-
         .library(
             name: "Comparison",
             targets: ["Comparison"]
         ),
-
         .library(
-            name: "Comparison Test Support",
-            targets: ["Comparison Test Support"]
-        ),
-    ],
-    dependencies: [
-        .package(
-            url: "https://github.com/swift-molecules/swift-equation.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-property.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-tagged.git",
-            branch: "main"
-        ),
-    ],
-    targets: [
-
-        .target(
-            name: "Comparison Primitive",
-            dependencies: []
-        ),
-
-        .target(
-            name: "Comparison Protocol",
-            dependencies: [
-                "Comparison Primitive",
-                .product(name: "Equation", package: "swift-equation"),
-            ]
-        ),
-        .target(
-            name: "Comparison Tagged",
-            dependencies: [
-                "Comparison Protocol",
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-        .target(
-            name: "Comparison Property",
-            dependencies: [
-                "Comparison Protocol",
-                .product(name: "Property", package: "swift-property"),
-            ]
-        ),
-
-        .target(
             name: "Comparison Standard Library Integration",
-            dependencies: [
-                "Comparison Protocol",
-                "Comparison Property",
-            ]
+            targets: ["Comparison Standard Library Integration"]
         ),
-
+        .library(
+            name: "Comparison Apple Foundation Integration",
+            targets: ["Comparison Apple Foundation Integration"]
+        ),
+    ],
+    dependencies: [],
+    targets: [
         .target(
             name: "Comparison",
-            dependencies: [
-                "Comparison Primitive",
-                "Comparison Protocol",
-                "Comparison Tagged",
-                "Comparison Property",
-                "Comparison Standard Library Integration",
-                .product(name: "Equation", package: "swift-equation"),
-            ]
+            dependencies: []
         ),
-
         .target(
-            name: "Comparison Test Support",
+            name: "Comparison Standard Library Integration",
+            dependencies: ["Comparison"]
+        ),
+        .target(
+            name: "Comparison Apple Foundation Integration",
             dependencies: [
                 "Comparison",
-                .product(
-                    name: "Tagged Test Support",
-                    package: "swift-tagged"
-                ),
-            ],
-            path: "Tests/Support"
+                "Comparison Standard Library Integration",
+            ]
         ),
         .testTarget(
             name: "Comparison Tests",
-            dependencies: [
-                "Comparison",
-                "Comparison Test Support",
-            ]
+            dependencies: ["Comparison"]
         ),
     ],
     swiftLanguageModes: [.v6]
