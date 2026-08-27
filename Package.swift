@@ -44,7 +44,10 @@ let package = Package(
         ),
         .testTarget(
             name: "Comparison Tests",
-            dependencies: ["Comparison"]
+            dependencies: [
+                "Comparison",
+                "Comparison Standard Library Integration",
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]
