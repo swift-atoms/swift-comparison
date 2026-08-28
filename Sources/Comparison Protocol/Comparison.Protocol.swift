@@ -1,4 +1,4 @@
-extension Comparison {
+extension Comparison::Comparison {
 
     public typealias `Protocol` = Swift.Comparable
 }

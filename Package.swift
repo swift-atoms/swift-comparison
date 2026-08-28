@@ -13,118 +13,72 @@ let package = Package(
     ],
     products: [
 
-        .library(
-            name: "Comparison Primitive",
-            targets: ["Comparison Primitive"]
-        ),
-
-        .library(
-            name: "Comparison Protocol",
-            targets: ["Comparison Protocol"]
-        ),
-        .library(
-            name: "Comparison Tagged",
-            targets: ["Comparison Tagged"]
-        ),
-        .library(
-            name: "Comparison Property",
-            targets: ["Comparison Property"]
-        ),
-
+        .library(name: "Comparison", targets: ["Comparison"]),
+        .library(name: "Comparison Protocol", targets: ["Comparison Protocol"]),
+        .library(name: "Comparison Property", targets: ["Comparison Property"]),
         .library(
             name: "Comparison Standard Library Integration",
             targets: ["Comparison Standard Library Integration"]
         ),
-
-        .library(
-            name: "Comparison",
-            targets: ["Comparison"]
-        ),
-
-        .library(
-            name: "Comparison Test Support",
-            targets: ["Comparison Test Support"]
-        ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-equation.git",
+            url: "https://github.com/swift-atoms/swift-equation.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-property.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-tagged.git",
+            url: "https://github.com/swift-atoms/swift-property.git",
             branch: "main"
         ),
     ],
     targets: [
 
-        .target(
-            name: "Comparison Primitive",
-            dependencies: []
-        ),
+        .target(name: "Comparison", dependencies: []),
 
         .target(
             name: "Comparison Protocol",
             dependencies: [
-                "Comparison Primitive",
-                .product(name: "Equation", package: "swift-equation"),
-            ]
-        ),
-        .target(
-            name: "Comparison Tagged",
-            dependencies: [
-                "Comparison Protocol",
-                .product(name: "Tagged", package: "swift-tagged"),
+                .target(name: "Comparison"),
+                .product(name: "Equation Protocol", package: "swift-equation"),
             ]
         ),
         .target(
             name: "Comparison Property",
             dependencies: [
-                "Comparison Protocol",
-                .product(name: "Property", package: "swift-property"),
+                .target(name: "Comparison Protocol"),
+                .product(name: "Property Inout", package: "swift-property"),
             ]
         ),
 
         .target(
             name: "Comparison Standard Library Integration",
             dependencies: [
-                "Comparison Protocol",
-                "Comparison Property",
+                .target(name: "Comparison Protocol"),
+                .target(name: "Comparison Property"),
             ]
-        ),
-
-        .target(
-            name: "Comparison",
-            dependencies: [
-                "Comparison Primitive",
-                "Comparison Protocol",
-                "Comparison Tagged",
-                "Comparison Property",
-                "Comparison Standard Library Integration",
-                .product(name: "Equation", package: "swift-equation"),
-            ]
-        ),
-
-        .target(
-            name: "Comparison Test Support",
-            dependencies: [
-                "Comparison",
-                .product(
-                    name: "Tagged Test Support",
-                    package: "swift-tagged"
-                ),
-            ],
-            path: "Tests/Support"
         ),
         .testTarget(
             name: "Comparison Tests",
             dependencies: [
-                "Comparison",
-                "Comparison Test Support",
+                .target(name: "Comparison"),
+            ]
+        ),
+        .testTarget(
+            name: "Comparison Protocol Tests",
+            dependencies: [
+                .target(name: "Comparison Protocol"),
+            ]
+        ),
+        .testTarget(
+            name: "Comparison Property Tests",
+            dependencies: [
+                .target(name: "Comparison Property"),
+            ]
+        ),
+        .testTarget(
+            name: "Comparison Standard Library Integration Tests",
+            dependencies: [
+                .target(name: "Comparison Standard Library Integration"),
             ]
         ),
     ],

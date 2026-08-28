@@ -1,6 +1,6 @@
-public import Property
+public import Property_Inout
 
-extension Property.Inout where Base: Swift.Comparable, Tag == Comparison.Clamp {
+extension Property::Property.Inout where Base: Swift.Comparable, Tag == Comparison::Comparison.Clamp {
 
     @_disfavoredOverload
     @inlinable
@@ -33,9 +33,9 @@ extension Property.Inout where Base: Swift.Comparable, Tag == Comparison.Clamp {
 extension Swift.Comparable where Self: Copyable {
 
     @_disfavoredOverload
-    public var clamp: Property<Comparison.Clamp, Self>.Inout {
+    public var clamp: Property::Property<Comparison::Comparison.Clamp, Self>.Inout {
         mutating _read {
-            yield Property<Comparison.Clamp, Self>.Inout(&self)
+            yield Property::Property<Comparison::Comparison.Clamp, Self>.Inout(&self)
         }
     }
 }
