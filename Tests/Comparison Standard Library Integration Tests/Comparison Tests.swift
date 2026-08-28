@@ -1,6 +1,5 @@
+import Comparison_Standard_Library_Integration
 import Testing
-
-@testable import Comparison_Primitives
 
 @Suite
 struct `Comparison Tests` {
@@ -24,7 +23,7 @@ extension `Comparison Tests`.Unit {
     @Suite struct `Lexicographic Comparison` {}
 }
 
-private struct Token: ~Copyable, Comparison.`Protocol` {
+private struct Token: ~Copyable, Comparison::Comparison.`Protocol` {
     let id: Int
 }
 
@@ -38,7 +37,7 @@ extension Token {
     }
 }
 
-private struct Token2: ~Copyable, Comparison.`Protocol` {
+private struct Token2: ~Copyable, Comparison::Comparison.`Protocol` {
     let value: Int
 }
 
@@ -52,7 +51,7 @@ extension Token2 {
     }
 }
 
-private struct Score: Comparison.`Protocol` {
+private struct Score: Comparison::Comparison.`Protocol` {
     var value: Int
 }
 

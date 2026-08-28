@@ -1,10 +1,10 @@
-public import Property_Primitives
+public import Property_Inout
 
-extension Property.Inout
-where Base: Comparison.`Protocol` & ~Copyable, Tag == Comparison.Compare {
+extension Property::Property.Inout
+where Base: Comparison::Comparison.`Protocol` & ~Copyable, Tag == Comparison::Comparison.Compare {
 
     @inlinable
-    public func to(_ other: borrowing Base) -> Comparison {
+    public func to(_ other: borrowing Base) -> Comparison::Comparison {
         if base.value < other {
             return .less
         } else if base.value == other {

@@ -1,11 +1,11 @@
-public import Property_Primitives
+public import Property_Inout
 
-extension Property.Inout where Base: Swift.Comparable & ~Copyable, Tag == Comparison.Compare {
+extension Property::Property.Inout where Base: Swift.Comparable & ~Copyable, Tag == Comparison::Comparison.Compare {
 
     @_disfavoredOverload
     @inlinable
-    public func to(_ other: borrowing Base) -> Comparison {
-        Comparison(comparing: base.value, to: other)
+    public func to(_ other: borrowing Base) -> Comparison::Comparison {
+        Comparison::Comparison(comparing: base.value, to: other)
     }
 
     @_disfavoredOverload
@@ -42,9 +42,9 @@ extension Property.Inout where Base: Swift.Comparable & ~Copyable, Tag == Compar
 extension Swift.Comparable where Self: Copyable {
 
     @_disfavoredOverload
-    public var compare: Property<Comparison.Compare, Self>.Inout {
+    public var compare: Property::Property<Comparison::Comparison.Compare, Self>.Inout {
         mutating _read {
-            yield Property<Comparison.Compare, Self>.Inout(&self)
+            yield Property::Property<Comparison::Comparison.Compare, Self>.Inout(&self)
         }
     }
 }

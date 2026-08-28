@@ -1,8 +1,11 @@
-extension Comparison {
+extension Comparison::Comparison {
 
     @inlinable
-
-    public init<T: Comparison.`Protocol` & ~Copyable>(_ lhs: borrowing T, _ rhs: borrowing T) {
+    @_disfavoredOverload
+    public init<T: Swift.Comparable & ~Copyable>(
+        comparing lhs: borrowing T,
+        to rhs: borrowing T
+    ) {
         if lhs < rhs {
             self = .less
         } else if lhs > rhs {

@@ -1,7 +1,7 @@
-public import Property_Primitives
+public import Property_Inout
 
-extension Property.Inout
-where Base: Comparison.`Protocol` & Copyable, Tag == Comparison.Clamp {
+extension Property::Property.Inout
+where Base: Comparison::Comparison.`Protocol` & Copyable, Tag == Comparison::Comparison.Clamp {
 
     @inlinable
     public func between(_ lower: Base, and upper: Base) -> Base {
