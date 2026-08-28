@@ -1,7 +1,6 @@
 import Testing
 
 @testable import Comparison
-import Comparison_Standard_Library_Integration
 
 @Suite
 struct `Comparison Tests` {
@@ -19,6 +18,9 @@ extension `Comparison Tests`.Unit {
     @Suite struct `Swift.Comparable Construction` {}
     @Suite struct `Protocol Conformances` {}
     @Suite struct `Comparison.Protocol Construction` {}
+    @Suite struct `Fluent Compare API` {}
+    @Suite struct `Fluent Clamp API` {}
+    @Suite struct `Swift.Comparable Fluent API` {}
     @Suite struct `Lexicographic Comparison` {}
 }
 
@@ -33,6 +35,34 @@ extension Token {
 
     static func == (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
         lhs.id == rhs.id
+    }
+}
+
+private struct Token2: ~Copyable, Comparison.`Protocol` {
+    let value: Int
+}
+
+extension Token2 {
+    static func < (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
+        lhs.value < rhs.value
+    }
+
+    static func == (lhs: borrowing Self, rhs: borrowing Self) -> Bool {
+        lhs.value == rhs.value
+    }
+}
+
+private struct Score: Comparison.`Protocol` {
+    var value: Int
+}
+
+extension Score {
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.value < rhs.value
+    }
+
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.value == rhs.value
     }
 }
 
@@ -294,6 +324,201 @@ extension `Comparison Tests`.Unit.`Comparison.Protocol Construction` {
         let b = Token(id: 5)
         let result: Bool = a == b
         #expect(result == true)
+    }
+}
+
+extension `Comparison Tests`.Unit.`Fluent Compare API` {
+    @Test
+    func `.compare.to() returns correct result`() {
+        var a = Token(id: 5)
+        var b = Token(id: 10)
+        let c = Token(id: 5)
+
+        #expect(a.compare.to(b) == .less)
+        #expect(b.compare.to(a) == .greater)
+        #expect(a.compare.to(c) == .equal)
+    }
+
+    @Test
+    func `.compare.isLess(than:) returns correct result`() {
+        var a = Token(id: 5)
+        var b = Token(id: 10)
+
+        #expect(a.compare.isLess(than: b) == true)
+        #expect(b.compare.isLess(than: a) == false)
+    }
+
+    @Test
+    func `.compare.isGreater(than:) returns correct result`() {
+        var a = Token(id: 5)
+        var b = Token(id: 10)
+
+        #expect(b.compare.isGreater(than: a) == true)
+        #expect(a.compare.isGreater(than: b) == false)
+    }
+
+    @Test
+    func `.compare.isEqual(to:) returns correct result`() {
+        var a = Token(id: 5)
+        let b = Token(id: 10)
+        let c = Token(id: 5)
+
+        #expect(a.compare.isEqual(to: c) == true)
+        #expect(a.compare.isEqual(to: b) == false)
+    }
+
+    @Test
+    func `.compare.isLessOrEqual(to:) returns correct result`() {
+        var a = Token(id: 5)
+        var b = Token(id: 10)
+        let c = Token(id: 5)
+
+        #expect(a.compare.isLessOrEqual(to: b) == true)
+        #expect(a.compare.isLessOrEqual(to: c) == true)
+        #expect(b.compare.isLessOrEqual(to: a) == false)
+    }
+
+    @Test
+    func `.compare.isGreaterOrEqual(to:) returns correct result`() {
+        var a = Token(id: 5)
+        var b = Token(id: 10)
+        let c = Token(id: 5)
+
+        #expect(b.compare.isGreaterOrEqual(to: a) == true)
+        #expect(a.compare.isGreaterOrEqual(to: c) == true)
+        #expect(a.compare.isGreaterOrEqual(to: b) == false)
+    }
+
+    @Test
+    func `Automatic .compare property via protocol extension`() {
+
+        var x = Token2(value: 1)
+        let y = Token2(value: 2)
+
+        #expect(x.compare.to(y) == .less)
+        #expect(x.compare.isLess(than: y) == true)
+    }
+}
+
+extension `Comparison Tests`.Unit.`Fluent Clamp API` {
+    @Test
+    func `.clamp.between() clamps to lower bound`() {
+        var score = Score(value: -5)
+        let result = score.clamp.between(Score(value: 0), and: Score(value: 100))
+        #expect(result.value == 0)
+    }
+
+    @Test
+    func `.clamp.between() clamps to upper bound`() {
+        var score = Score(value: 150)
+        let result = score.clamp.between(Score(value: 0), and: Score(value: 100))
+        #expect(result.value == 100)
+    }
+
+    @Test
+    func `.clamp.between() returns value when in range`() {
+        var score = Score(value: 50)
+        let result = score.clamp.between(Score(value: 0), and: Score(value: 100))
+        #expect(result.value == 50)
+    }
+
+    @Test
+    func `.clamp.above() clamps to minimum`() {
+        var score = Score(value: -10)
+        let result = score.clamp.above(Score(value: 0))
+        #expect(result.value == 0)
+    }
+
+    @Test
+    func `.clamp.above() returns value when above minimum`() {
+        var score = Score(value: 50)
+        let result = score.clamp.above(Score(value: 0))
+        #expect(result.value == 50)
+    }
+
+    @Test
+    func `.clamp.below() clamps to maximum`() {
+        var score = Score(value: 150)
+        let result = score.clamp.below(Score(value: 100))
+        #expect(result.value == 100)
+    }
+
+    @Test
+    func `.clamp.below() returns value when below maximum`() {
+        var score = Score(value: 50)
+        let result = score.clamp.below(Score(value: 100))
+        #expect(result.value == 50)
+    }
+}
+
+extension `Comparison Tests`.Unit.`Swift.Comparable Fluent API` {
+    @Test
+    func `String has .compare property`() {
+        var apple = "apple"
+        let banana = "banana"
+
+        #expect(apple.compare.to(banana) == .less)
+        #expect(apple.compare.isLess(than: banana) == true)
+        #expect(apple.compare.isGreater(than: banana) == false)
+        #expect(apple.compare.isEqual(to: "apple") == true)
+    }
+
+    @Test
+    func `Double has .compare property`() {
+        var a = 1.5
+        let b = 2.5
+
+        #expect(a.compare.to(b) == .less)
+        #expect(a.compare.isLess(than: b) == true)
+        #expect(a.compare.isGreater(than: b) == false)
+        #expect(a.compare.isEqual(to: 1.5) == true)
+    }
+
+    @Test
+    func `Float has .compare property`() {
+        var a: Float = 3.14
+        let b: Float = 2.71
+
+        #expect(a.compare.to(b) == .greater)
+        #expect(a.compare.isGreater(than: b) == true)
+        #expect(a.compare.isLess(than: b) == false)
+    }
+
+    @Test
+    func `Character has .compare property`() {
+        var a: Character = "a"
+        let z: Character = "z"
+
+        #expect(a.compare.to(z) == .less)
+        #expect(a.compare.isLess(than: z) == true)
+        #expect(a.compare.isGreaterOrEqual(to: "a") == true)
+    }
+
+    @Test
+    func `Int uses Comparison.Protocol path (both paths work)`() {
+
+        var a = 5
+        let b = 10
+
+        #expect(a.compare.to(b) == .less)
+        #expect(a.compare.isLess(than: b) == true)
+        #expect(a.compare.isLessOrEqual(to: 5) == true)
+    }
+
+    @Test
+    func `String has .clamp property`() {
+        var name = "bob"
+        #expect(name.clamp.between("alice", and: "charlie") == "bob")
+        #expect(name.clamp.above("charlie") == "charlie")
+        #expect(name.clamp.below("alice") == "alice")
+    }
+
+    @Test
+    func `Double has .clamp property`() {
+        var temp = 105.0
+        #expect(temp.clamp.between(0.0, and: 100.0) == 100.0)
+        #expect(temp.clamp.above(110.0) == 110.0)
+        #expect(temp.clamp.below(50.0) == 50.0)
     }
 }
 
