@@ -1,4 +1,4 @@
-import Comparison_Protocol
+import Comparison
 import Testing
 
 @Suite

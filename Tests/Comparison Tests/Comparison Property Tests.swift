@@ -1,4 +1,4 @@
-import Comparison_Property
+import Comparison
 import Testing
 
 @Suite

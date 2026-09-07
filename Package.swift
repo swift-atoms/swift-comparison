@@ -12,14 +12,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
         .library(name: "Comparison", targets: ["Comparison"]),
-        .library(name: "Comparison Protocol", targets: ["Comparison Protocol"]),
-        .library(name: "Comparison Property", targets: ["Comparison Property"]),
-        .library(
-            name: "Comparison Standard Library Integration",
-            targets: ["Comparison Standard Library Integration"]
-        ),
+        .library(name: "Comparison Standard Library Integration", targets: ["Comparison Standard Library Integration"]),
+        .library(name: "Comparison Foundation Library Integration", targets: ["Comparison Foundation Library Integration"]),
+        .library(name: "Comparison Test Support", targets: ["Comparison Test Support"]),
     ],
     dependencies: [
         .package(
@@ -32,61 +28,52 @@ let package = Package(
         ),
     ],
     targets: [
-
-        .target(name: "Comparison", dependencies: []),
-
         .target(
-            name: "Comparison Protocol",
+            name: "Comparison",
             dependencies: [
-                .target(name: "Comparison"),
-                .product(name: "Equation Protocol", package: "swift-equation"),
-            ]
-        ),
-        .target(
-            name: "Comparison Property",
-            dependencies: [
-                .target(name: "Comparison Protocol"),
+                .product(name: "Equation", package: "swift-equation"),
                 .product(name: "Property", package: "swift-property"),
-            ]
+            ],
+            path: "Sources/Comparison"
         ),
-
         .target(
             name: "Comparison Standard Library Integration",
             dependencies: [
-                .target(name: "Comparison Protocol"),
-                .target(name: "Comparison Property"),
-            ]
+                .target(name: "Comparison"),
+            ],
+            path: "Sources/Comparison Standard Library Integration"
+        ),
+        .target(
+            name: "Comparison Foundation Library Integration",
+            dependencies: [
+                .target(name: "Comparison"),
+                .target(name: "Comparison Standard Library Integration"),
+            ],
+            path: "Sources/Comparison Foundation Library Integration"
+        ),
+        .target(
+            name: "Comparison Test Support",
+            dependencies: [
+                .target(name: "Comparison"),
+            ],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Comparison Tests",
             dependencies: [
                 .target(name: "Comparison"),
-            ]
-        ),
-        .testTarget(
-            name: "Comparison Protocol Tests",
-            dependencies: [
-                .target(name: "Comparison Protocol"),
-            ]
-        ),
-        .testTarget(
-            name: "Comparison Property Tests",
-            dependencies: [
-                .target(name: "Comparison Property"),
-            ]
-        ),
-        .testTarget(
-            name: "Comparison Standard Library Integration Tests",
-            dependencies: [
                 .target(name: "Comparison Standard Library Integration"),
-            ]
+                .target(name: "Comparison Test Support"),
+                .target(name: "Comparison Foundation Library Integration"),
+            ],
+            path: "Tests/Comparison Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -95,8 +82,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }

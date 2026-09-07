@@ -2,14 +2,14 @@ import Comparison_Standard_Library_Integration
 import Testing
 
 @Suite
-struct `Comparison Tests` {
+struct ComparisonStandardLibraryTests {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
     @Suite(.serialized) struct Performance {}
 }
 
-extension `Comparison Tests`.Unit {
+extension ComparisonStandardLibraryTests.Unit {
     @Suite struct Cases {}
     @Suite struct Reversal {}
     @Suite struct Chaining {}
@@ -86,7 +86,7 @@ private func compare(_ lhs: Person, _ rhs: Person) -> Comparison {
         .then(Comparison(comparing: lhs.id, to: rhs.id))
 }
 
-extension `Comparison Tests`.Unit.Cases {
+extension ComparisonStandardLibraryTests.Unit.Cases {
     @Test
     func `All cases exist`() {
         let cases = Comparison.allCases
@@ -97,7 +97,7 @@ extension `Comparison Tests`.Unit.Cases {
     }
 }
 
-extension `Comparison Tests`.Unit.Reversal {
+extension ComparisonStandardLibraryTests.Unit.Reversal {
     @Test
     func `Reversal mapping`() {
         #expect(Comparison.less.reversed == .greater)
@@ -127,7 +127,7 @@ extension `Comparison Tests`.Unit.Reversal {
     }
 }
 
-extension `Comparison Tests`.Unit.Chaining {
+extension ComparisonStandardLibraryTests.Unit.Chaining {
     @Test
     func `Left identity: equal.then(x) = x`() {
         for value in Comparison.allCases {
@@ -185,7 +185,7 @@ extension `Comparison Tests`.Unit.Chaining {
     }
 }
 
-extension `Comparison Tests`.Unit.`Boolean Properties` {
+extension ComparisonStandardLibraryTests.Unit.`Boolean Properties` {
     @Test
     func `isLess`() {
         #expect(Comparison.less.isLess == true)
@@ -222,7 +222,7 @@ extension `Comparison Tests`.Unit.`Boolean Properties` {
     }
 }
 
-extension `Comparison Tests`.Unit.`Swift.Comparable Construction` {
+extension ComparisonStandardLibraryTests.Unit.`Swift.Comparable Construction` {
     @Test
     func `Int comparison`() {
         #expect(Comparison(comparing: 1, to: 2) == .less)
@@ -245,7 +245,7 @@ extension `Comparison Tests`.Unit.`Swift.Comparable Construction` {
     }
 }
 
-extension `Comparison Tests`.Unit.`Protocol Conformances` {
+extension ComparisonStandardLibraryTests.Unit.`Protocol Conformances` {
     @Test
     func `Hashable - can be used in Set`() {
         let set: Set<Comparison> = [.less, .equal, .greater]
@@ -273,7 +273,7 @@ extension `Comparison Tests`.Unit.`Protocol Conformances` {
     }
 }
 
-extension `Comparison Tests`.Unit.`Comparison.Protocol Construction` {
+extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction` {
     @Test
     func `~Copyable type comparison via Result`() {
         let a = Token(id: 1)
@@ -326,7 +326,7 @@ extension `Comparison Tests`.Unit.`Comparison.Protocol Construction` {
     }
 }
 
-extension `Comparison Tests`.Unit.`Fluent Compare API` {
+extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     @Test
     func `.compare.to() returns correct result`() {
         var a = Token(id: 5)
@@ -399,7 +399,7 @@ extension `Comparison Tests`.Unit.`Fluent Compare API` {
     }
 }
 
-extension `Comparison Tests`.Unit.`Fluent Clamp API` {
+extension ComparisonStandardLibraryTests.Unit.`Fluent Clamp API` {
     @Test
     func `.clamp.between() clamps to lower bound`() {
         var score = Score(value: -5)
@@ -450,7 +450,7 @@ extension `Comparison Tests`.Unit.`Fluent Clamp API` {
     }
 }
 
-extension `Comparison Tests`.Unit.`Swift.Comparable Fluent API` {
+extension ComparisonStandardLibraryTests.Unit.`Swift.Comparable Fluent API` {
     @Test
     func `String has .compare property`() {
         var apple = "apple"
@@ -521,7 +521,7 @@ extension `Comparison Tests`.Unit.`Swift.Comparable Fluent API` {
     }
 }
 
-extension `Comparison Tests`.Unit.`Lexicographic Comparison` {
+extension ComparisonStandardLibraryTests.Unit.`Lexicographic Comparison` {
     @Test
     func `Multi-field comparison`() {
         let alice1 = Person(name: "Alice", age: 30, id: 1)
