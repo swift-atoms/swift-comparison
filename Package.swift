@@ -46,7 +46,7 @@ let package = Package(
             name: "Comparison Property",
             dependencies: [
                 .target(name: "Comparison Protocol"),
-                .product(name: "Property Inout", package: "swift-property"),
+                .product(name: "Property", package: "swift-property"),
             ]
         ),
 

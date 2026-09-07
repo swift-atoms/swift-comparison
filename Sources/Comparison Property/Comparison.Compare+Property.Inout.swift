@@ -1,4 +1,4 @@
-public import Property_Inout
+public import Property
 
 extension Property::Property.Inout
 where Base: Comparison::Comparison.`Protocol` & ~Copyable, Tag == Comparison::Comparison.Compare {
