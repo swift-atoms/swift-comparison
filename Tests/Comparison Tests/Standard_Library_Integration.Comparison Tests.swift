@@ -1,4 +1,4 @@
-import Comparison_Standard_Library_Integration
+import Comparison
 import Testing
 
 @Suite

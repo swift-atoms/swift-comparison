@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Comparison", targets: ["Comparison"]),
-        .library(name: "Comparison Standard Library Integration", targets: ["Comparison Standard Library Integration"]),
-        .library(name: "Comparison Foundation Library Integration", targets: ["Comparison Foundation Library Integration"]),
+
+        .library(name: "Comparison Foundation Integration", targets: ["Comparison Foundation Integration"]),
         .library(name: "Comparison Test Support", targets: ["Comparison Test Support"]),
     ],
     dependencies: [
@@ -36,20 +36,13 @@ let package = Package(
             ],
             path: "Sources/Comparison"
         ),
+        
         .target(
-            name: "Comparison Standard Library Integration",
+            name: "Comparison Foundation Integration",
             dependencies: [
                 .target(name: "Comparison"),
             ],
-            path: "Sources/Comparison Standard Library Integration"
-        ),
-        .target(
-            name: "Comparison Foundation Library Integration",
-            dependencies: [
-                .target(name: "Comparison"),
-                .target(name: "Comparison Standard Library Integration"),
-            ],
-            path: "Sources/Comparison Foundation Library Integration"
+            path: "Sources/Comparison Foundation Integration"
         ),
         .target(
             name: "Comparison Test Support",
@@ -62,9 +55,8 @@ let package = Package(
             name: "Comparison Tests",
             dependencies: [
                 .target(name: "Comparison"),
-                .target(name: "Comparison Standard Library Integration"),
                 .target(name: "Comparison Test Support"),
-                .target(name: "Comparison Foundation Library Integration"),
+                .target(name: "Comparison Foundation Integration"),
             ],
             path: "Tests/Comparison Tests"
         ),

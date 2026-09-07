@@ -1,6 +1,6 @@
 public import Property
 
-extension Comparison::Comparison.`Protocol` where Self: ~Copyable {
+extension Swift.Comparable where Self: ~Copyable {
 
     public var compare: Property::Property<Comparison::Comparison.Compare, Self>.Inout {
         mutating _read {
@@ -9,7 +9,7 @@ extension Comparison::Comparison.`Protocol` where Self: ~Copyable {
     }
 }
 
-extension Comparison::Comparison.`Protocol` where Self: Copyable {
+extension Swift.Comparable where Self: Copyable {
 
     public var clamp: Property::Property<Comparison::Comparison.Clamp, Self>.Inout {
         mutating _read {

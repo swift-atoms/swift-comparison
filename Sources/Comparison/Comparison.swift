@@ -8,5 +8,5 @@ public enum Comparison: Sendable, Hashable, CaseIterable {
 }
 
 #if !hasFeature(Embedded)
-    extension Comparison: Codable {}
+extension Comparison: Swift.Codable {}
 #endif
