@@ -2,25 +2,25 @@ import Comparison
 import Testing
 
 @Suite
-struct ComparisonStandardLibraryTests {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+struct `Comparisons compose ordered results and expose fluent value operations` {
+    @Suite struct `Comparison results obey ordering laws and support value adapters` {}
+    @Suite struct `No comparison integration boundary cases are defined` {}
+    @Suite struct `No comparison integration integration cases are defined` {}
+    @Suite(.serialized) struct `No comparison integration performance cases are defined` {}
 }
 
-extension ComparisonStandardLibraryTests.Unit {
-    @Suite struct Cases {}
-    @Suite struct Reversal {}
-    @Suite struct Chaining {}
-    @Suite struct `Boolean Properties` {}
-    @Suite struct `Swift.Comparable Construction` {}
-    @Suite struct `Protocol Conformances` {}
-    @Suite struct `Comparison.Protocol Construction` {}
-    @Suite struct `Fluent Compare API` {}
-    @Suite struct `Fluent Clamp API` {}
-    @Suite struct `Swift.Comparable Fluent API` {}
-    @Suite struct `Lexicographic Comparison` {}
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters` {
+    @Suite struct `Comparison cases enumerate every ordered result` {}
+    @Suite struct `Comparison reversal exchanges less and greater while preserving equality` {}
+    @Suite struct `Comparison chaining obeys identity associativity and short circuit laws` {}
+    @Suite struct `Comparison predicates identify each ordered relation` {}
+    @Suite struct `Comparable values construct correctly ordered results` {}
+    @Suite struct `Comparisons support hashing and transfer across isolation boundaries` {}
+    @Suite struct `Noncopyable values expose comparisons and relational operators` {}
+    @Suite struct `Fluent comparisons report ordered relations between values` {}
+    @Suite struct `Fluent clamping preserves values within the requested bounds` {}
+    @Suite struct `Standard comparable values expose comparison and clamp accessors` {}
+    @Suite struct `Lexicographic chaining compares fields in priority order` {}
 }
 
 private struct Token: ~Copyable, Comparison::Comparison.`Protocol` {
@@ -86,9 +86,9 @@ private func compare(_ lhs: Person, _ rhs: Person) -> Comparison {
         .then(Comparison(comparing: lhs.id, to: rhs.id))
 }
 
-extension ComparisonStandardLibraryTests.Unit.Cases {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Comparison cases enumerate every ordered result` {
     @Test
-    func `All cases exist`() {
+    func `Comparison iteration enumerates less equal and greater`() {
         let cases = Comparison.allCases
         #expect(cases.count == 3)
         #expect(cases.contains(.less))
@@ -97,53 +97,53 @@ extension ComparisonStandardLibraryTests.Unit.Cases {
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.Reversal {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Comparison reversal exchanges less and greater while preserving equality` {
     @Test
-    func `Reversal mapping`() {
+    func `Comparison reversal exchanges less and greater while retaining equality`() {
         #expect(Comparison.less.reversed == .greater)
         #expect(Comparison.equal.reversed == .equal)
         #expect(Comparison.greater.reversed == .less)
     }
 
     @Test
-    func `Reversal is involution: rev(rev(x)) = x`() {
+    func `Reversing a comparison twice restores the original result`() {
         for value in Comparison.allCases {
             #expect(value.reversed.reversed == value)
         }
     }
 
     @Test
-    func `Prefix ! operator`() {
+    func `Prefix negation reverses the comparison result`() {
         #expect(!Comparison.less == .greater)
         #expect(!Comparison.equal == .equal)
         #expect(!Comparison.greater == .less)
     }
 
     @Test
-    func `Prefix ! is equivalent to reversed`() {
+    func `Prefix negation agrees with explicit comparison reversal`() {
         for value in Comparison.allCases {
             #expect(!value == value.reversed)
         }
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.Chaining {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Comparison chaining obeys identity associativity and short circuit laws` {
     @Test
-    func `Left identity: equal.then(x) = x`() {
+    func `Equality is the left identity of comparison chaining`() {
         for value in Comparison.allCases {
             #expect(Comparison.equal.then(value) == value)
         }
     }
 
     @Test
-    func `Right identity: x.then(equal) = x`() {
+    func `Equality is the right identity of comparison chaining`() {
         for value in Comparison.allCases {
             #expect(value.then(.equal) == value)
         }
     }
 
     @Test
-    func `Associativity: (x.then(y)).then(z) = x.then(y.then(z))`() {
+    func `Comparison chaining is associative`() {
         let cases = Comparison.allCases
         for x in cases {
             for y in cases {
@@ -157,7 +157,7 @@ extension ComparisonStandardLibraryTests.Unit.Chaining {
     }
 
     @Test
-    func `Short-circuit behavior`() {
+    func `Comparison chaining retains the first unequal result`() {
         #expect(Comparison.less.then(.greater) == .less)
         #expect(Comparison.greater.then(.less) == .greater)
         #expect(Comparison.equal.then(.less) == .less)
@@ -165,7 +165,7 @@ extension ComparisonStandardLibraryTests.Unit.Chaining {
     }
 
     @Test
-    func `Lazy chaining with then(with:)`() {
+    func `Lazy comparison chaining evaluates a secondary result only for equality`() {
         var evaluationCount = 0
 
         let lazyValue: () -> Comparison = {
@@ -185,75 +185,75 @@ extension ComparisonStandardLibraryTests.Unit.Chaining {
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Boolean Properties` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Comparison predicates identify each ordered relation` {
     @Test
-    func `isLess`() {
+    func `The less predicate identifies only the less result`() {
         #expect(Comparison.less.isLess == true)
         #expect(Comparison.equal.isLess == false)
         #expect(Comparison.greater.isLess == false)
     }
 
     @Test
-    func `isEqual`() {
+    func `The equality predicate identifies only the equal result`() {
         #expect(Comparison.less.isEqual == false)
         #expect(Comparison.equal.isEqual == true)
         #expect(Comparison.greater.isEqual == false)
     }
 
     @Test
-    func `isGreater`() {
+    func `The greater predicate identifies only the greater result`() {
         #expect(Comparison.less.isGreater == false)
         #expect(Comparison.equal.isGreater == false)
         #expect(Comparison.greater.isGreater == true)
     }
 
     @Test
-    func `isLessOrEqual`() {
+    func `The less or equal predicate excludes the greater result`() {
         #expect(Comparison.less.isLessOrEqual == true)
         #expect(Comparison.equal.isLessOrEqual == true)
         #expect(Comparison.greater.isLessOrEqual == false)
     }
 
     @Test
-    func `isGreaterOrEqual`() {
+    func `The greater or equal predicate excludes the less result`() {
         #expect(Comparison.less.isGreaterOrEqual == false)
         #expect(Comparison.equal.isGreaterOrEqual == true)
         #expect(Comparison.greater.isGreaterOrEqual == true)
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Swift.Comparable Construction` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Comparable values construct correctly ordered results` {
     @Test
-    func `Int comparison`() {
+    func `Integer comparison follows numeric ordering`() {
         #expect(Comparison(comparing: 1, to: 2) == .less)
         #expect(Comparison(comparing: 2, to: 2) == .equal)
         #expect(Comparison(comparing: 3, to: 2) == .greater)
     }
 
     @Test
-    func `String comparison`() {
+    func `String comparison follows lexical ordering`() {
         #expect(Comparison(comparing: "apple", to: "banana") == .less)
         #expect(Comparison(comparing: "hello", to: "hello") == .equal)
         #expect(Comparison(comparing: "zebra", to: "apple") == .greater)
     }
 
     @Test
-    func `Double comparison`() {
+    func `Double comparison follows numeric ordering`() {
         #expect(Comparison(comparing: 1.5, to: 2.5) == .less)
         #expect(Comparison(comparing: 2.5, to: 2.5) == .equal)
         #expect(Comparison(comparing: 3.5, to: 2.5) == .greater)
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Protocol Conformances` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Comparisons support hashing and transfer across isolation boundaries` {
     @Test
-    func `Hashable - can be used in Set`() {
+    func `Sets preserve distinct comparison results`() {
         let set: Set<Comparison> = [.less, .equal, .greater]
         #expect(set.count == 3)
     }
 
     @Test
-    func `Hashable - can be used as dictionary key`() {
+    func `Comparison results can index dictionary values`() {
         let dict: [Comparison: String] = [
             .less: "less",
             .equal: "equal",
@@ -265,7 +265,7 @@ extension ComparisonStandardLibraryTests.Unit.`Protocol Conformances` {
     }
 
     @Test
-    func `Sendable - can pass to actor`() async {
+    func `Comparison results retain their value across actor boundaries`() async {
         let holder = Holder()
         await holder.set(.less)
         let result = await holder.get()
@@ -273,9 +273,9 @@ extension ComparisonStandardLibraryTests.Unit.`Protocol Conformances` {
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Noncopyable values expose comparisons and relational operators` {
     @Test
-    func `~Copyable type comparison via Result`() {
+    func `Noncopyable values construct less equal and greater comparisons`() {
         let a = Token(id: 1)
         let b = Token(id: 2)
         let c = Token(id: 1)
@@ -286,7 +286,7 @@ extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction`
     }
 
     @Test
-    func `~Copyable operators: less than`() {
+    func `The less than operator compares noncopyable values`() {
         let a = Token(id: 5)
         let b = Token(id: 10)
         let result: Bool = a < b
@@ -294,7 +294,7 @@ extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction`
     }
 
     @Test
-    func `~Copyable operators: greater than`() {
+    func `The greater than operator compares noncopyable values`() {
         let a = Token(id: 10)
         let b = Token(id: 5)
         let result: Bool = a > b
@@ -302,7 +302,7 @@ extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction`
     }
 
     @Test
-    func `~Copyable operators: less than or equal`() {
+    func `The less than or equal operator accepts equal noncopyable values`() {
         let a = Token(id: 5)
         let b = Token(id: 5)
         let result: Bool = a <= b
@@ -310,7 +310,7 @@ extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction`
     }
 
     @Test
-    func `~Copyable operators: greater than or equal`() {
+    func `The greater than or equal operator accepts equal noncopyable values`() {
         let a = Token(id: 5)
         let b = Token(id: 5)
         let result: Bool = a >= b
@@ -318,7 +318,7 @@ extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction`
     }
 
     @Test
-    func `~Copyable operators: equal`() {
+    func `The equality operator compares noncopyable values`() {
         let a = Token(id: 5)
         let b = Token(id: 5)
         let result: Bool = a == b
@@ -326,9 +326,9 @@ extension ComparisonStandardLibraryTests.Unit.`Comparison.Protocol Construction`
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Fluent comparisons report ordered relations between values` {
     @Test
-    func `.compare.to() returns correct result`() {
+    func `Fluent comparison distinguishes less equal and greater values`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
         let c = Token(id: 5)
@@ -339,7 +339,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     }
 
     @Test
-    func `.compare.isLess(than:) returns correct result`() {
+    func `Fluent less than comparison follows the value order`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
 
@@ -348,7 +348,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     }
 
     @Test
-    func `.compare.isGreater(than:) returns correct result`() {
+    func `Fluent greater than comparison follows the value order`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
 
@@ -357,7 +357,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     }
 
     @Test
-    func `.compare.isEqual(to:) returns correct result`() {
+    func `Fluent equality comparison distinguishes equal values`() {
         var a = Token(id: 5)
         let b = Token(id: 10)
         let c = Token(id: 5)
@@ -367,7 +367,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     }
 
     @Test
-    func `.compare.isLessOrEqual(to:) returns correct result`() {
+    func `Fluent less than or equal comparison includes equality`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
         let c = Token(id: 5)
@@ -378,7 +378,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     }
 
     @Test
-    func `.compare.isGreaterOrEqual(to:) returns correct result`() {
+    func `Fluent greater than or equal comparison includes equality`() {
         var a = Token(id: 5)
         var b = Token(id: 10)
         let c = Token(id: 5)
@@ -389,7 +389,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     }
 
     @Test
-    func `Automatic .compare property via protocol extension`() {
+    func `Comparison protocol conformance supplies the fluent accessor`() {
 
         var x = Token2(value: 1)
         let y = Token2(value: 2)
@@ -399,7 +399,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Compare API` {
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Fluent Clamp API` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Fluent clamping preserves values within the requested bounds` {
     @Test
     func `.clamp.between() clamps to lower bound`() {
         var score = Score(value: -5)
@@ -450,7 +450,7 @@ extension ComparisonStandardLibraryTests.Unit.`Fluent Clamp API` {
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Swift.Comparable Fluent API` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Standard comparable values expose comparison and clamp accessors` {
     @Test
     func `String has .compare property`() {
         var apple = "apple"
@@ -521,9 +521,9 @@ extension ComparisonStandardLibraryTests.Unit.`Swift.Comparable Fluent API` {
     }
 }
 
-extension ComparisonStandardLibraryTests.Unit.`Lexicographic Comparison` {
+extension `Comparisons compose ordered results and expose fluent value operations`.`Comparison results obey ordering laws and support value adapters`.`Lexicographic chaining compares fields in priority order` {
     @Test
-    func `Multi-field comparison`() {
+    func `Lexicographic comparison resolves fields in priority order`() {
         let alice1 = Person(name: "Alice", age: 30, id: 1)
         let alice2 = Person(name: "Alice", age: 30, id: 2)
         let alice3 = Person(name: "Alice", age: 25, id: 1)

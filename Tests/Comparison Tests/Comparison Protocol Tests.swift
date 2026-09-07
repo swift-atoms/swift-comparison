@@ -2,7 +2,7 @@ import Comparison
 import Testing
 
 @Suite
-struct `Comparison Protocol Tests` {
+struct `Comparable values support comparison construction` {
     @Test
     func `comparable values construct comparisons`() {
         #expect(Comparison::Comparison(1, 2) == .less)

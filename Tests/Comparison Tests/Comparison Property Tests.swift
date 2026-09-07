@@ -2,7 +2,7 @@ import Comparison
 import Testing
 
 @Suite
-struct `Comparison Property Tests` {
+struct `Comparable values expose a comparison accessor` {
     @Test
     func `comparable values expose the comparison property`() {
         var value = 1
