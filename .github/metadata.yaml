@@ -1,5 +1,3 @@
-# .github/metadata.yaml
-# Triaged by AI-assisted bulk pass (2026-04-29).
 description: "Three-way comparison value type and move-only-compatible ordering protocol for Swift."
 topics:
   - primitives
